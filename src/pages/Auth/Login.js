@@ -83,12 +83,23 @@ const Wrap = styled.div `
     padding:5px 20%;
     font-size:24px;
 
+    @media screen and (max-width:500px){
+      padding:5px 10px;
+      font-size:20px;
+    }
     img{
       width:6%;
+      @media screen and (max-width:500px){
+        width:13%;
+      }
     }
     p{
       font-weight:700;
       text-transform:uppercase;
+      @media screen and (max-width:500px){
+        font-weight:600;
+        margin-top:18px;
+      }
     }
     a{
       font-size: 24px;
@@ -103,7 +114,11 @@ const Wrap = styled.div `
     margin: 5% auto;
     padding:15px;
     border-radius:11px;
-    box-shadow: 0 0  5px #ccc;
+    box-shadow: 0 0 14px #ccc;
+
+    @media screen and (max-width:500px){
+      width:90%;
+    }
 
     p{
       font-size:18px;
@@ -120,9 +135,15 @@ const Wrap = styled.div `
     background:#17418D;
     color:#fff;
     padding: 15px;
+    @media screen and (max-width:500px){
+      padding:10px;
+    }
     p{
       font-size:14px;
       text-align:center;
+      @media screen and (max-width:500px){
+        font-size:12px;
+      }
     }
   }
 `;
