@@ -1,0 +1,36 @@
+{
+  "files": {
+    "main.css": "/static/css/main.a198ee61.chunk.css",
+    "main.js": "/static/js/main.c10b8cb4.chunk.js",
+    "main.js.map": "/static/js/main.c10b8cb4.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.56f170bf.js",
+    "runtime-main.js.map": "/static/js/runtime-main.56f170bf.js.map",
+    "static/js/2.8a0def12.chunk.js": "/static/js/2.8a0def12.chunk.js",
+    "static/js/2.8a0def12.chunk.js.map": "/static/js/2.8a0def12.chunk.js.map",
+    "static/js/3.9bb6e502.chunk.js": "/static/js/3.9bb6e502.chunk.js",
+    "static/js/3.9bb6e502.chunk.js.map": "/static/js/3.9bb6e502.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.a198ee61.chunk.css.map": "/static/css/main.a198ee61.chunk.css.map",
+    "static/js/2.8a0def12.chunk.js.LICENSE.txt": "/static/js/2.8a0def12.chunk.js.LICENSE.txt",
+    "static/media/account.b531baf6.png": "/static/media/account.b531baf6.png",
+    "static/media/arch.88b44d68.png": "/static/media/arch.88b44d68.png",
+    "static/media/banking.ff40df1a.webp": "/static/media/banking.ff40df1a.webp",
+    "static/media/banner.6f4a30c1.gif": "/static/media/banner.6f4a30c1.gif",
+    "static/media/bio.74a0d8bc.webp": "/static/media/bio.74a0d8bc.webp",
+    "static/media/biochemistry.e9106640.png": "/static/media/biochemistry.e9106640.png",
+    "static/media/biotchnology.9c14da5e.png": "/static/media/biotchnology.9c14da5e.png",
+    "static/media/elearning.7b54ef10.webp": "/static/media/elearning.7b54ef10.webp",
+    "static/media/gologo.8da79ffa.png": "/static/media/gologo.8da79ffa.png",
+    "static/media/gouni-biology.b9fa6078.png": "/static/media/gouni-biology.b9fa6078.png",
+    "static/media/gouni.9cf121b4.png": "/static/media/gouni.9cf121b4.png",
+    "static/media/jupeb.62902cd1.png": "/static/media/jupeb.62902cd1.png",
+    "static/media/logo.bcab2398.webp": "/static/media/logo.bcab2398.webp",
+    "static/media/payment.6e0dd146.webp": "/static/media/payment.6e0dd146.webp"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.56f170bf.js",
+    "static/js/2.8a0def12.chunk.js",
+    "static/css/main.a198ee61.chunk.css",
+    "static/js/main.c10b8cb4.chunk.js"
+  ]
+}
