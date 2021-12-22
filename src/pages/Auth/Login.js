@@ -3,18 +3,33 @@ import styled from "styled-components";
 import {FaArrowLeft} from "react-icons/fa";
 import images from "../../components/images";
 import {useForm} from "react-hook-form";
+import Loader from "react-loader-spinner";
 
 
 const Login = () => {
     const [student, setStudent] = useState(true);
+    const [isLoading, setIsLoading] =  useState(false);
     const {register, handleSubmit, formState:{errors},} = useForm();
 
+    const handleOptions = () =>{
+      setIsLoading(false);
+      setStudent(!student);
+    }
     const studentLogin = (data) =>{
-      console.log(data)
+      console.log(data);
+      setIsLoading(true);
+      setTimeout(() => {
+        setIsLoading(false);
+        window.location.href ="/user/dashboard"
+      }, 3000);
     }
 
     const staffLogin = (data) =>{
-      console.log(data)
+      console.log(data);
+      setIsLoading(true);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 3000);
     }
  
     return(
@@ -27,7 +42,7 @@ const Login = () => {
         </div>
         {student === true? 
             <form onSubmit={handleSubmit(studentLogin)}>
-              <p>Are you a Staff? <span onClick={()=>setStudent(false)}>Login Here</span></p>
+              <p>Are you a Staff? <span onClick={()=> handleOptions()}>Login Here</span></p>
               <div className="form-group">
                 <label>Reg No:</label>
                 <input className="form-control" type="text" name="regNo"
@@ -42,7 +57,9 @@ const Login = () => {
                 />
                 {errors.password && <p className="text-danger">Enter password.</p>}
               </div>
-              <button className="btn btn-block btn-primary">Login</button>
+              {isLoading ===true? <Loader className="text-center" type="ThreeDots" color="#0077b6" /> :
+                <button className="btn btn-block btn-primary">Login</button>
+              }
             </form>
            :
             <form onSubmit={handleSubmit(staffLogin)}>
@@ -61,7 +78,9 @@ const Login = () => {
               />
               {errors.password && <p className="text-danger">Password is required.</p>}
             </div>
-            <button className="btn btn-block btn-primary">Login</button>
+            {isLoading ===true? <Loader className="text-center" type="ThreeDots" color="#0077b6" /> :
+              <button className="btn btn-block btn-primary">Login</button>
+             }
         </form>
         }
         <div className="footer">
