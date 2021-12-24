@@ -1,6 +1,6 @@
-import React from "react";
+import React,{useEffect, useState} from "react";
 import styled from "styled-components";
-
+import Axios from "axios";
 
 
 const Result = () =>{
@@ -25,44 +25,42 @@ const Result = () =>{
       </tr>
     })
   };
-  let filtered =[
-    {
-      course_code: "Demo 101",
-      course_title: "Demo Course",
-      id: 2,
-      name: "Sunday Francis",
-      reg_no: "esut/2014/155200",
-      score: "31.25%"
-    },
-    {
-      course_code: "Demo 101",
-      course_title: "Demo Course",
-      id: 2,
-      name: "Sunday Francis",
-      reg_no: "esut/2014/155200",
-      score: "31.25%"
-    },
-    {
-      course_code: "Demo 101",
-      course_title: "Demo Course",
-      id: 2,
-      name: "Sunday Francis",
-      reg_no: "esut/2014/155200",
-      score: "31.25%"
-    }
-  ]
+
+  const regno = localStorage.getItem("regNo");
+  const [results, setResults] = useState([]);
+ 
+  async function getResults (reg){
+  const dbData = await Axios.get(`http://localhost:3020/result/?regNo=${reg}`)
+    .then((res) =>{
+      return res.data
+    })
+    .catch(e => console.log(e));
+    return dbData;
+  }
+   
+  useEffect(() =>{
+    const updateResult = async () =>{
+      const data = await getResults(regno);
+      setResults(data);
+      console.log(data);
+    };
+    updateResult();
+  }, [regno]);
+
   return(
     <Wrap className="container mt-5">
-      <table className="table table-striped">
-        <thead className="table-dark">
-          <tr>
-            {tableHeader()}
-          </tr>
-        </thead>
-        <tbody>
-          {renderTable(filtered)}
-        </tbody>
-      </table>
+      {!results.length ? <p>Loading...</p> :
+        <table className="table table-striped">
+          <thead className="table-dark">
+            <tr>
+              {tableHeader()}
+            </tr>
+          </thead>
+          <tbody>
+            {renderTable(results)}
+          </tbody>
+        </table>
+      }
     </Wrap>
   )
 }
