@@ -10,9 +10,13 @@ const Exam = () =>{
  const [start, setStart] = useState(false);
  let [next, setNext] = useState(0);
  let [isRegistered, setIsRegistered] = useState(false);
-
-
  const [exam, setExam] = useState([]);
+ const [answer, setAnswer] = useState("");
+ const [totalScore, setTotalScore] = useState([]);
+
+ const regno = "esut/2014/155200";
+ const name = "Pope Francis";
+ 
  //Function to get exams for a specific course
   async function getExams (course,reg){
     const dbData = await Axios.get(`http://localhost:3020/questions/${course}`)
@@ -23,10 +27,11 @@ const Exam = () =>{
     return dbData;
   }
   //Check if student registered for course
-  async function confirmCourseReg (reg){
-    const corseInfo = await Axios.get(`http://localhost:3020/courses/student`)
+  async function confirmCourseReg (){
+    
+    const corseInfo = await Axios.get(`http://localhost:3020/courses/student/${courseCode}`)
     .then((res) =>{
-      
+      console.log(res.data)
       return res.data
     })
     .catch(e => console.log(e));
@@ -46,12 +51,12 @@ const Exam = () =>{
       return;
     }
     setExam(questions);
-    const registered = await confirmCourseReg("esut/2014/155200");
+    const registered = await confirmCourseReg();
     console.log(registered);
     if(registered.length){
       let student =registered.filter((students) =>{
         return students.code.toLowerCase() === courseCode.toLowerCase() && 
-        students.reg_no.toLowerCase() === "esut/2014/15520"
+        students.reg_no.toLowerCase() === "esut/2014/155200"
       });
       console.log(student)
       if(student.length){setIsRegistered(true);}
@@ -59,8 +64,87 @@ const Exam = () =>{
     console.log(questions);
   }
 
+  const studentScore = () => {
+    let t = 0;
+    console.log(`the score is ${totalScore}`)
+    totalScore.forEach(value => {
+      // console.log(value);
+      t += value;
+      
+    });
+    return  (t/(exam.length * 5)) * 100 + '%';
+  }
+  const submitAnswer = () => {
+    let keywords = exam[next].keyword;
+    let score = 0;
+    
+    for (let index = 0; index < keywords.length; index++) {
+      if(answer.toLocaleLowerCase().includes(keywords[index])){
+        score += ((100/keywords.length)/100)*5;
+        alert("has it.")
+        
+      }
+    }
+    setTotalScore(totalScore =>([...totalScore, score]));
+    console.log(score);
+    setAnswer("");
+    console.log(totalScore)
+  }
+  let submited = false;
+  const finish = () =>{
+    
+    if(submited === true){
+      alert("you've submitted already!");
+      return;
+    }
+    const result = studentScore();
+    console.log(result);
+    submited = true;
+
+    const uploadScore = async () => {
+    
+      let payload ={
+        name: name,
+        regNo: regno,
+        course: exam[0].course_title,
+        code: exam[0].course_code,
+        score: result
+      };
+      console.log(payload);
+      console.log(payload.code)
+      const recordExist = await Axios.get(`http://localhost:3020/results/${payload.code}`);
+      
+      console.log(recordExist)
+      let studentResult =recordExist.data.filter((students) =>{
+        return students.course_code.toLowerCase() === courseCode.toLowerCase() && 
+        students.reg_no.toLowerCase() === regno
+      });
+      console.log(studentResult)
+      
+      if(studentResult.length){
+        alert("You've written this exam previously. Contact the lecturer for a rewrite.")
+        return;
+      }
+      const saved = await Axios.post('http://localhost:3020/result/upload',payload);
+      console.log(saved)
+      if(saved.data.length){
+        console.log('Record Saved.');
+        alert("Congratulations! Your submission was successful.");
+      }
+      else{
+        alert("oops! Something went wrong while submitting your answer. Contact IT department.")
+      }
+    }
+
+    uploadScore();
+  }
+ 
+
   const handleNext =() =>{
-    if(next === exam.length-1){
+    console.log(`next value ${next}`)
+     submitAnswer();
+    if(next > exam.length){
+      setNext(next+1);
       return;
     }
     setNext(next + 1);
@@ -94,7 +178,7 @@ const Exam = () =>{
               </div> :
               <>
                 <div className="questions-list my-3">
-                  <p className="text-center">{next +1}/{exam.length}</p>
+                  <p className="text-center">{next !== exam.length? next +1 : next}/{exam.length}</p>
                 </div>
                 <div className={!isRegistered?"mb-4":"questions-div mb-4"}>
                   {!exam.length ? 
@@ -103,21 +187,26 @@ const Exam = () =>{
                       <div className="row">
                         <div className="col-md-5 col-sm-12">
                           <div className="quest">
-                            <p>{exam[next].question}</p>
+                           {next < exam.length?<p>{exam[next].question}</p>: <p>{"No more questions."}</p>}
                           </div>
                           
                         </div>
                         <div className="col-md-7 col-sm-12">
                           <div className="ans-div">
                             
-                            <textarea className="form-control" rows="10" cols="10"></textarea>
-                            { (next) !== exam.length-1 ?
+                            <textarea className="form-control" rows="10" cols="10"
+                              value={answer}
+                              onChange={(e)=>setAnswer(e.target.value)}
+                            ></textarea>
+                            { (next) < exam.length ?
                               
                               <div className="w-25 mt-2 ml-auto">
-                                  <button className="btn btn-block btn-success" onClick={()=>handleNext()}>Next</button>
+                                <button className="btn btn-block btn-success" onClick={()=>handleNext()}>Next</button>
                               </div>:
                               <div className="mt-1">
-                                <button className="btn btn-block btn-info font-weight-bold">Submit</button>
+                                <button className="btn btn-block btn-info font-weight-bold"
+                                  onClick={()=>finish()}
+                                >Submit</button>
                               </div>
                             }
                           </div>

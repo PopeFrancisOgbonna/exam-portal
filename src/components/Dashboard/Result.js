@@ -26,26 +26,28 @@ const Result = () =>{
     })
   };
 
-  const regno = localStorage.getItem("regNo");
+  const reg = "esut/2014/155200";
   const [results, setResults] = useState([]);
  
-  async function getResults (reg){
-  const dbData = await Axios.get(`http://localhost:3020/result/?regNo=${reg}`)
-    .then((res) =>{
-      return res.data
-    })
-    .catch(e => console.log(e));
-    return dbData;
+  async function getResults (regNo){
+   
+    try {
+      let resultData = await  Axios.get(`http://localhost:3020/results/student?regno=${regNo}`);
+      console.log(resultData.data)
+      return resultData.data;
+    } catch (error) {
+      console.log(error)
+    }
   }
    
   useEffect(() =>{
     const updateResult = async () =>{
-      const data = await getResults(regno);
+      const data = await getResults(reg);
       setResults(data);
-      console.log(data);
+      console.log(data.length)
     };
     updateResult();
-  }, [regno]);
+  }, [reg]);
 
   return(
     <Wrap className="container mt-5">
