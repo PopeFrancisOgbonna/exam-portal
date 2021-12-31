@@ -119,7 +119,6 @@ const Exam = () =>{
         return students.course_code.toLowerCase() === courseCode.toLowerCase() && 
         students.reg_no.toLowerCase() === regno
       });
-      console.log(studentResult)
       
       if(studentResult.length){
         alert("You've written this exam previously. Contact the lecturer for a rewrite.")
@@ -128,7 +127,6 @@ const Exam = () =>{
       const saved = await Axios.post('http://localhost:3020/result/upload',payload);
       console.log(saved)
       if(saved.data.length){
-        console.log('Record Saved.');
         alert("Congratulations! Your submission was successful.");
       }
       else{

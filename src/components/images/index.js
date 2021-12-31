@@ -19,12 +19,15 @@ import slide1 from "./slide1.png";
 import guide from "./exam.png";
 import student from "./student.jpg";
 import exampix from "./schools_exams.png";
+import error404 from "./error.png";
+
 
 
 
 const images = {
   slide1,
   exampix,
+  error404,
   guide,
   student,
   visit,
