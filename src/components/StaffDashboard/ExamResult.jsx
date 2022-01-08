@@ -1,9 +1,11 @@
-import React,{useEffect, useState} from "react";
+import React,{useEffect,useState} from "react";
 import styled from "styled-components";
 import Axios from "axios";
 
 
-const Result = () =>{
+
+const ExamResult = () => {
+
 
   const headers = {"s/n":'', name:'', regNo:'', course:'', code: '', score:''}
   let tableHeader = () => {
@@ -26,13 +28,13 @@ const Result = () =>{
     })
   };
 
-  const reg = "esut/2014/155200";
+  const [code, setCode] = useState("");
   const [results, setResults] = useState([]);
  
-  async function getResults (regNo){
+  async function getResults (code){
    
     try {
-      let resultData = await  Axios.get(`http://localhost:3020/results/student?regno=${regNo}`);
+      let resultData = await  Axios.get(`http://localhost:3020/results/${code}`);
       console.log(resultData.data)
       return resultData.data;
     } catch (error) {
@@ -42,16 +44,24 @@ const Result = () =>{
    
   useEffect(() =>{
     const updateResult = async () =>{
-      const data = await getResults(reg);
+      const data = await getResults(code);
       setResults(data);
       console.log(data.length)
     };
     updateResult();
-  }, [reg]);
-
+  }, [code]);
   return(
-    <Wrap className="container mt-5">
+    <Wrapper> 
+      <div className="input-group my-3 mx-auto " id="search-bar">
+        <input type="text" className="form-control " placeholder="Enter Course Code" aria-label="Course-Code" 
+          aria-describedby="exam-code" onChange={(e)=>setCode(e.target.value)}
+        />
+        <div className="input-group-append">
+          <span className="btn btn-secondary input-group-text" id="exam-code">View Result</span>
+        </div>
+      </div>
       {!results.length ? <p>Loading...</p> :
+        code !=="" &&
         <div className="table-container">
           <table className="table table-striped">
             <thead className="table-dark">
@@ -65,13 +75,23 @@ const Result = () =>{
           </table>
         </div>
       }
-    </Wrap>
+    </Wrapper>
   )
 }
-export default Result;
+export default ExamResult;
 
-const Wrap = styled.div `
+const Wrapper = styled.div `
+  #search-bar{
+    width:25%;
+
+    @media screen and (max-width:768px){
+      width:45% !important;
+    }
+    @media screen and (max-width:480px){
+      width:95% !important;
+    }
+  }
   .table-container{
-    overflow-x:auto;
+    overflow-x: auto;
   }
 `;

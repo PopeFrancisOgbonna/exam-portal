@@ -7,6 +7,7 @@
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+  color: #a5a3a577;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -16,7 +17,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #434446b9;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

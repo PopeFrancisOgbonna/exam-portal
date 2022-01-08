@@ -176,7 +176,7 @@ const Home = (props) =>{
                   </h2>
                 </div>
 
-                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#gouniAccordion">
+                <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#gouniAccordion">
                   <div className="card-body">
                     <ul className="p-2">
                       <li>Integration of learning and character formation</li>
@@ -208,8 +208,8 @@ const Home = (props) =>{
                     </button>
                   </h2>
                 </div>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#gouniAccordion">
-                  <div class="card-body">
+                <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#gouniAccordion">
+                  <div className="card-body">
                    <ul>
                      <li>Cult-free environment</li>
                      <li>Serene learning environment</li>
@@ -228,7 +228,7 @@ const Home = (props) =>{
                     </button>
                   </h2>
                 </div>
-                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#gouniAccordion">
+                <div id="collapseThree" className="collapse" aria-labelledby="headingThree" data-parent="#gouniAccordion">
                   <div className="card-body">
                     <ul>
                       <li>ICT-Enabled University</li>
@@ -240,7 +240,7 @@ const Home = (props) =>{
               </div>
               <div className="card my-3">
                 <div className={active ===4?"card-header bg":"card-header" }id="headingFour">
-                  <h2 class="mb-0">
+                  <h2 className="mb-0">
                     <button className="btn btn-link btn-transparent btn-block text-left collapsed" type="button" data-toggle="collapse" 
                       data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour" onClick={()=>setActive(4)}>
                       Awards
@@ -265,7 +265,7 @@ const Home = (props) =>{
                     </button>
                   </h2>
                 </div>
-                <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#gouniAccordion">
+                <div id="collapseFive" className="collapse" aria-labelledby="headingFive" data-parent="#gouniAccordion">
                   <div className="card-body">
                     <ul>
                       <li>UNIVERSITY OF STELLENBOSCH BUSINESS SCHOOL</li>

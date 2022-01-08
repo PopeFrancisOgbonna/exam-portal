@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { Route,Link, Switch } from "react-router-dom";
 import images from "../images";
-import Result from "../StudentDashboard/Result";
 import Home from "./Home"
 import ExamQuestions from "./ExamQuestions";
+import ExamResult from "./ExamResult";
 
 
 
@@ -17,7 +17,6 @@ const StaffDashboard = () => {
         <p>Welcome {user}</p>
         <Link to="/" className="text-danger font-weight-bold logout">Logout</Link>
       </div>
-
       <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
         <Link className="navbar-brand" to="/user/dashboard">
           <img className="img-fluid mr-2" width="45px" src={images.logo2} alt="" />
@@ -32,10 +31,6 @@ const StaffDashboard = () => {
             <li className="nav-item active">
               <Link className="nav-link" to="/staff/dashboard">Home </Link>
             </li>
-            {/* <li className="nav-item">
-              <Link className="nav-link" to="/staff/dashboard/exam/register">Register Course</Link>
-            </li> */}
-            
             <li className="nav-item">
               <Link className="nav-link " to="/staff/dashboard/exam" >Publish Exam Questions</Link>
             </li>
@@ -50,14 +45,11 @@ const StaffDashboard = () => {
           <Route exact path="/staff/dashboard">
             <Home />
           </Route>
-          {/* <Route exact path="/staff/dashboard/exam/register">
-            <p>Add course</p>
-          </Route> */}
           <Route exact path="/staff/dashboard/exam">
             <ExamQuestions />
           </Route>
           <Route exact path="/staff/dashboard/exam/result">
-            <Result />
+            <ExamResult />
           </Route>
         </Switch>
       </div>
