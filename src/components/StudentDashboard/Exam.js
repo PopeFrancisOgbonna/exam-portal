@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Axios from "axios";
+import api from "../middleware/baseUrl";
 
 
 const Exam = () =>{
 
+  const appApi = api.localUrl;
  const [courseCode, setCourseCode] = useState("");
  const [error, setError] = useState("");
  const [start, setStart] = useState(false);
@@ -19,7 +21,7 @@ const Exam = () =>{
  
  //Function to get exams for a specific course
   async function getExams (course,reg){
-    const dbData = await Axios.get(`http://localhost:3020/questions/${course}`)
+    const dbData = await Axios.get(`${appApi}/questions/${course}`)
     .then((res) =>{
       return res.data
     })
@@ -29,7 +31,7 @@ const Exam = () =>{
   //Check if student registered for course
   async function confirmCourseReg (){
     
-    const corseInfo = await Axios.get(`http://localhost:3020/courses/student/${courseCode}`)
+    const corseInfo = await Axios.get(`${appApi}/courses/student/${courseCode}`)
     .then((res) =>{
       console.log(res.data)
       return res.data
@@ -112,7 +114,7 @@ const Exam = () =>{
       };
       console.log(payload);
       console.log(payload.code)
-      const recordExist = await Axios.get(`http://localhost:3020/results/${payload.code}`);
+      const recordExist = await Axios.get(`${appApi}/results/${payload.code}`);
       
       console.log(recordExist)
       let studentResult =recordExist.data.filter((students) =>{
@@ -124,7 +126,7 @@ const Exam = () =>{
         alert("You've written this exam previously. Contact the lecturer for a rewrite.")
         return;
       }
-      const saved = await Axios.post('http://localhost:3020/result/upload',payload);
+      const saved = await Axios.post(`${appApi}/result/upload`,payload);
       console.log(saved)
       if(saved.data.length){
         alert("Congratulations! Your submission was successful.");

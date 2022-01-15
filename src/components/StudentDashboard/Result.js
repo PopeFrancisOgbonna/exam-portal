@@ -1,10 +1,12 @@
 import React,{useEffect, useState} from "react";
 import styled from "styled-components";
 import Axios from "axios";
+import api from "../middleware/baseUrl";
 
 
 const Result = () =>{
 
+  const appApi = api.localUrl;
   const headers = {"s/n":'', name:'', regNo:'', course:'', code: '', score:''}
   let tableHeader = () => {
     let header = Object.keys(headers);
@@ -32,7 +34,7 @@ const Result = () =>{
   async function getResults (regNo){
    
     try {
-      let resultData = await  Axios.get(`http://localhost:3020/results/student?regno=${regNo}`);
+      let resultData = await  Axios.get(`${appApi}/results/student?regno=${regNo}`);
       console.log(resultData.data)
       return resultData.data;
     } catch (error) {

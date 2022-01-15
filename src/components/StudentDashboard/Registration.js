@@ -4,10 +4,12 @@ import Loader from "react-loader-spinner";
 import images from "../images";
 import { useForm } from "react-hook-form";
 import Axios from "axios";
+import api from "../middleware/baseUrl";
 
 
 const Registration = () => {
 
+  const appApi = api.localUrl;
   const [isLoading, setIsLoading] =  useState(false);
   const {register, handleSubmit, formState:{errors},} = useForm();
   const [msg, setMsg] = useState('');
@@ -26,7 +28,7 @@ const Registration = () => {
       }
 
       //send data to server
-      Axios.post('http://localhost:3020/courses/register',regPayload)
+      Axios.post(`${appApi}/courses/register`,regPayload)
       .then((res) =>{
         console.log(res);
         setMsg(res.data);

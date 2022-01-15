@@ -3,19 +3,47 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import Loader from "react-loader-spinner";
 import images from "../images";
+import api from "../middleware/baseUrl";
+import Axios from "axios";
 
 
 
 const ExamQuestions = () => {
 
+  const appApi = api.localUrl;
   const {register, handleSubmit, formState:{errors},} = useForm();
   const [isLoading, setIsLoading]= useState(false);
+  const [msg, setMsg] = useState('');
 
   const loadExamQuestion = (data) => {
     setIsLoading(true);
-    console.log(data);
+    setMsg('');
+    let payload = {
+      course:data.title, 
+      code: data.code, 
+      quest: data.question, 
+      ans: data.ans, 
+      keys: [
+        data.keyword,
+        data.keyword1,
+        data.keyword2,
+        data.keyword3
+      ]
+    }
+    console.log(payload);
     setTimeout(() => {
-      setIsLoading(false);
+      Axios.post(`${appApi}/question`,payload)
+        .then(data =>{
+          console.log(data);
+          setMsg(data.data);
+          setIsLoading(false);
+        })
+        .catch(err => {
+          console.log(err);
+          setMsg('Error: Unable to upload Questions! Try again later');
+          setIsLoading(false);
+        })
+      
     }, 3000);
   }
 
@@ -126,6 +154,14 @@ const ExamQuestions = () => {
                           />
                         </div>
                       </div>
+                      {msg !=="" &&
+                        <div className={msg.toLocaleLowerCase().includes('error')?"alert alert-warning alert-dismissible fade show":"alert alert-success alert-dismissible fade show"} role="alert">
+                          <strong>{msg}</strong> 
+                          <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                      }
                       {!isLoading ? <button className="btn btn-block btn-primary">Upload Question</button>:
                         <Loader type="ThreeDots" className="mx-auto" color="#0077b6" />
                       }

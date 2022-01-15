@@ -29,6 +29,7 @@ const Login = () => {
       setIsLoading(true);
       setTimeout(() => {
         setIsLoading(false);
+        window.location.href ="/staff/dashboard"
       }, 3000);
     }
  

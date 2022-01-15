@@ -37,22 +37,7 @@ const Home = () => {
           </p>
         </div>
       </div>
-      {/* <div className="container">
-        <div className="row">
-          <div className="col-md-4 col-sm-12">
-            <h1>486+</h1>
-            <p>Registered Students</p>
-          </div>
-          <div className="col-md-4 col-sm-12">
-            <h1>3521+</h1>
-            <p>Questions</p>
-          </div>
-          <div className="col-md-4 col-sm-12">
-            <h1>2476+</h1>
-            <p>Generated Results</p>
-          </div>
-        </div>
-      </div> */}
+      
     </Wrapper>
   )
 }

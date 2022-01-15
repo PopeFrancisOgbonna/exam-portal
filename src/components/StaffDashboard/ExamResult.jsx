@@ -1,6 +1,7 @@
 import React,{useEffect,useState} from "react";
 import styled from "styled-components";
 import Axios from "axios";
+import api from "../middleware/baseUrl";
 
 
 
@@ -28,13 +29,13 @@ const ExamResult = () => {
     })
   };
 
+  const appApi = api.localUrl;
   const [code, setCode] = useState("");
   const [results, setResults] = useState([]);
- 
   async function getResults (code){
    
     try {
-      let resultData = await  Axios.get(`http://localhost:3020/results/${code}`);
+      let resultData = await  Axios.get(`${appApi}/results/${code}`);
       console.log(resultData.data)
       return resultData.data;
     } catch (error) {
