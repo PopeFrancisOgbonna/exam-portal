@@ -6,7 +6,7 @@ import api from "../middleware/baseUrl";
 
 const Result = () =>{
 
-  const appApi = api.localUrl;
+  const baseUrl = api.localUrl;
   const headers = {"s/n":'', name:'', regNo:'', course:'', code: '', score:''}
   let tableHeader = () => {
     let header = Object.keys(headers);
@@ -28,13 +28,13 @@ const Result = () =>{
     })
   };
 
-  const reg = "esut/2014/155200";
+  const reg = sessionStorage.getItem("regNo");
   const [results, setResults] = useState([]);
  
   async function getResults (regNo){
    
     try {
-      let resultData = await  Axios.get(`${appApi}/results/student?regno=${regNo}`);
+      let resultData = await  Axios.get(`${baseUrl}/results/student?regno=${regNo}`);
       console.log(resultData.data)
       return resultData.data;
     } catch (error) {

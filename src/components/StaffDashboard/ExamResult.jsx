@@ -7,7 +7,6 @@ import api from "../middleware/baseUrl";
 
 const ExamResult = () => {
 
-
   const headers = {"s/n":'', name:'', regNo:'', course:'', code: '', score:''}
   let tableHeader = () => {
     let header = Object.keys(headers);
@@ -32,11 +31,11 @@ const ExamResult = () => {
   const appApi = api.localUrl;
   const [code, setCode] = useState("");
   const [results, setResults] = useState([]);
+
+  
   async function getResults (code){
-   
     try {
       let resultData = await  Axios.get(`${appApi}/results/${code}`);
-      console.log(resultData.data)
       return resultData.data;
     } catch (error) {
       console.log(error)
@@ -47,10 +46,10 @@ const ExamResult = () => {
     const updateResult = async () =>{
       const data = await getResults(code);
       setResults(data);
-      console.log(data.length)
     };
     updateResult();
   }, [code]);
+
   return(
     <Wrapper> 
       <div className="input-group my-3 mx-auto " id="search-bar">

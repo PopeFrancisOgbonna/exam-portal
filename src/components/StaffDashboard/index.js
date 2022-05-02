@@ -10,12 +10,16 @@ import ExamResult from "./ExamResult";
 
 const StaffDashboard = () => {
 
-  const user ="Pope Francis";
+  const user = sessionStorage.getItem('userName');
+  const logout = ()=>{
+    sessionStorage.clear();
+  }
+
   return(
     <Wrapper className="container-fluid">
       <div className="header-div">
         <p>Welcome {user}</p>
-        <Link to="/" className="text-danger font-weight-bold logout">Logout</Link>
+        <Link to="/" onClick={() => logout()} className="text-danger font-weight-bold logout">Logout</Link>
       </div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
         <Link className="navbar-brand" to="/user/dashboard">

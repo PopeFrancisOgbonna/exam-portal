@@ -16,13 +16,14 @@ const Exam = () =>{
  const [answer, setAnswer] = useState("");
  const [totalScore, setTotalScore] = useState([]);
 
- const regno = "esut/2014/155200";
- const name = "Pope Francis";
+ const regno = sessionStorage.getItem('regNo');
+ const name = sessionStorage.getItem('User');
  
  //Function to get exams for a specific course
   async function getExams (course,reg){
     const dbData = await Axios.get(`${appApi}/questions/${course}`)
     .then((res) =>{
+      console.log(res.data);
       return res.data
     })
     .catch(e => console.log(e));
@@ -31,7 +32,7 @@ const Exam = () =>{
   //Check if student registered for course
   async function confirmCourseReg (){
     
-    const corseInfo = await Axios.get(`${appApi}/courses/student/${courseCode}`)
+    const corseInfo = await Axios.get(`${appApi}/courses/student/${courseCode}?&regno=${regno}`)
     .then((res) =>{
       console.log(res.data)
       return res.data
@@ -58,7 +59,7 @@ const Exam = () =>{
     if(registered.length){
       let student =registered.filter((students) =>{
         return students.code.toLowerCase() === courseCode.toLowerCase() && 
-        students.reg_no.toLowerCase() === "esut/2014/155200"
+        students.reg_no.toLowerCase() === regno;
       });
       console.log(student)
       if(student.length){setIsRegistered(true);}
@@ -83,8 +84,6 @@ const Exam = () =>{
     for (let index = 0; index < keywords.length; index++) {
       if(answer.toLocaleLowerCase().includes(keywords[index])){
         score += ((100/keywords.length)/100)*5;
-        alert("has it.")
-        
       }
     }
     setTotalScore(totalScore =>([...totalScore, score]));

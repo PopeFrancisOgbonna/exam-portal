@@ -4,12 +4,15 @@ import {FaArrowLeft} from "react-icons/fa";
 import images from "../../components/images";
 import {useForm} from "react-hook-form";
 import Loader from "react-loader-spinner";
+import api from "../../components/middleware/baseUrl";
+import axios from "axios";
 
 
 const Login = () => {
     const [student, setStudent] = useState(true);
     const [isLoading, setIsLoading] =  useState(false);
     const {register, handleSubmit, formState:{errors},} = useForm();
+    const baseUrl = api.localUrl;
 
     const handleOptions = () =>{
       setIsLoading(false);
@@ -17,19 +20,43 @@ const Login = () => {
     }
     const studentLogin = (data) =>{
       console.log(data);
+      sessionStorage.clear();
       setIsLoading(true);
-      setTimeout(() => {
+
+      axios.post(`${baseUrl}/student/login`,data)
+        .then(res => {
+          if(!res.data.length){
+            alert("invalid username and password!");
+          }
+
+          const {full_name,reg_no} = res.data[0];
+          sessionStorage.setItem("User",full_name);
+          sessionStorage.setItem("regNo",reg_no);
+          if(full_name.length){window.location.href="/user/dashboard";}
+          
+        }).catch(err =>{
+          console.log(err);
+         
+        });
+        
         setIsLoading(false);
-        window.location.href ="/user/dashboard"
-      }, 3000);
+        
     }
 
     const staffLogin = (data) =>{
       console.log(data);
       setIsLoading(true);
       setTimeout(() => {
+        axios.post(`${baseUrl}/staff/login`,data)
+        .then((res) =>{
+          const {full_name,email} = res.data[0];
+          sessionStorage.setItem("userName",full_name);
+          sessionStorage.setItem("email",email);
+          if(full_name.length){
+            window.location.href ="/staff/dashboard";
+          }
+        }).catch(err => console.log(err));
         setIsLoading(false);
-        window.location.href ="/staff/dashboard"
       }, 3000);
     }
  
@@ -46,8 +73,8 @@ const Login = () => {
               <p>Are you a Staff? <span onClick={()=> handleOptions()}>Login Here</span></p>
               <div className="form-group">
                 <label>Reg No:</label>
-                <input className="form-control" type="text" name="regNo"
-                  {...register('regNo',{required:true})}
+                <input className="form-control" type="text" name="userName"
+                  {...register('userName',{required:true})}
                 />
                 {errors.regNo && <p className="text-danger">Enter Reg.</p>}
               </div>
@@ -66,11 +93,11 @@ const Login = () => {
             <form onSubmit={handleSubmit(staffLogin)}>
             <p>Are you a Student? <span onClick={()=>setStudent(true)}>Login Here</span></p>
             <div className="form-group">
-              <label>Username:</label>
-              <input className="form-control" type="text" name="username"
+              <label>Email Address:</label>
+              <input className="form-control" type="email" name="username"
                 {...register('username',{required:true})}
               />
-              {errors.username && <p className="text-danger">User Name is required.</p>}
+              {errors.username && <p className="text-danger">User Email Address is required.</p>}
             </div>
             <div className="form-group">
               <label>Password:</label>
