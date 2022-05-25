@@ -12,7 +12,7 @@ const Login = () => {
     const [student, setStudent] = useState(true);
     const [isLoading, setIsLoading] =  useState(false);
     const {register, handleSubmit, formState:{errors},} = useForm();
-    const baseUrl = api.localUrl;
+    const baseUrl = api.localUrl; 
 
     const handleOptions = () =>{
       setIsLoading(false);
@@ -25,6 +25,7 @@ const Login = () => {
 
       axios.post(`${baseUrl}/student/login`,data)
         .then(res => {
+          console.log(res.data);
           if(!res.data.length){
             alert("invalid username and password!");
           }

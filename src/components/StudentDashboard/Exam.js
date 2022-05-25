@@ -176,6 +176,8 @@ const Exam = () =>{
                 <button className="btn btn-lg btn-warning text-light" onClick={()=>{setError("");setStart(false)}}>Return</button>
               </div> :
               <>
+                <h4 className="text-center my-3">{exam[0].course_title} ({exam[0].course_code}) Examination</h4>
+                <p className ="text-center">Note: Ensure you attemmpt all questions</p>
                 <div className="questions-list my-3">
                   <p className="text-center">{next !== exam.length? next +1 : next}/{exam.length}</p>
                 </div>
