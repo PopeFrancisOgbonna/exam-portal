@@ -23,12 +23,14 @@ import error404 from "./error.png";
 import student1 from "./student1.png";
 import student2 from "./student2.png";
 import online from "./online.jpeg";
+import resultSheet from "./paper.png";
 
 
 
 
 
 const images = {
+  resultSheet,
   slide1,
   online,
   student1,

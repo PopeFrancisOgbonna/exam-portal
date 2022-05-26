@@ -6,6 +6,8 @@ import {useForm} from "react-hook-form";
 import Loader from "react-loader-spinner";
 import api from "../../components/middleware/baseUrl";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Login = () => {
@@ -27,15 +29,20 @@ const Login = () => {
         .then(res => {
           console.log(res.data);
           if(!res.data.length){
-            alert("invalid username and password!");
+            toast.error("invalid username and password!",{position:toast.POSITION.TOP_RIGHT});
+            return;
           }
 
           const {full_name,reg_no} = res.data[0];
           sessionStorage.setItem("User",full_name);
           sessionStorage.setItem("regNo",reg_no);
-          if(full_name.length){window.location.href="/user/dashboard";}
+          if(full_name.length){
+            toast.success("Redirecting...",{position:toast.POSITION.TOP_RIGHT});
+            window.location.href="/user/dashboard";
+          }
           
         }).catch(err =>{
+          toast.error("ooops! Network Error.",{position:toast.POSITION.TOP_RIGHT});
           console.log(err);
          
         });
@@ -51,12 +58,18 @@ const Login = () => {
         axios.post(`${baseUrl}/staff/login`,data)
         .then((res) =>{
           const {full_name,email} = res.data[0];
+          if(!res.data.length){
+            toast.error("invalid username and password!",{position:toast.POSITION.TOP_RIGHT});
+            return;
+          }
           sessionStorage.setItem("userName",full_name);
           sessionStorage.setItem("email",email);
           if(full_name.length){
+            toast.success("Redirecting...",{position:toast.POSITION.TOP_RIGHT});
             window.location.href ="/staff/dashboard";
           }
         }).catch(err => console.log(err));
+        toast.error("ooops! Network Error.",{position:toast.POSITION.TOP_RIGHT});
         setIsLoading(false);
       }, 3000);
     }
@@ -71,7 +84,7 @@ const Login = () => {
         </div>
         {student === true? 
             <form onSubmit={handleSubmit(studentLogin)}>
-              <p>Are you a Staff? <span onClick={()=> handleOptions()}>Login Here</span></p>
+              <p className="text-warning">Are you a Staff? <span onClick={()=> handleOptions()}>Login Here</span></p>
               <div className="form-group">
                 <label>Reg No:</label>
                 <input className="form-control" type="text" name="userName"
@@ -87,12 +100,15 @@ const Login = () => {
                 {errors.password && <p className="text-danger">Enter password.</p>}
               </div>
               {isLoading ===true? <Loader className="text-center" type="ThreeDots" color="#0077b6" /> :
-                <button className="btn btn-block btn-primary">Login</button>
+                <>
+                  <button className="btn btn-block btn-primary">Login</button>
+                  <ToastContainer/>
+                </>
               }
             </form>
            :
             <form onSubmit={handleSubmit(staffLogin)}>
-            <p>Are you a Student? <span onClick={()=>setStudent(true)}>Login Here</span></p>
+            <p className="text-warning">Are you a Student? <span onClick={()=>setStudent(true)}>Login Here</span></p>
             <div className="form-group">
               <label>Email Address:</label>
               <input className="form-control" type="email" name="username"
@@ -108,7 +124,10 @@ const Login = () => {
               {errors.password && <p className="text-danger">Password is required.</p>}
             </div>
             {isLoading ===true? <Loader className="text-center" type="ThreeDots" color="#0077b6" /> :
-              <button className="btn btn-block btn-primary">Login</button>
+              <>
+                <button className="btn btn-block btn-primary">Login</button>
+                <ToastContainer />
+              </>
              }
         </form>
         }
@@ -183,6 +202,11 @@ const Wrap = styled.div `
     background:#17418D;
     color:#fff;
     padding: 15px;
+    width:100%;
+    position:fixed;
+    bottom:0;
+    font-size:18px;
+    font-weight:500;
     @media screen and (max-width:500px){
       padding:10px;
     }

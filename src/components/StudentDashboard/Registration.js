@@ -5,7 +5,8 @@ import images from "../images";
 import { useForm } from "react-hook-form";
 import Axios from "axios";
 import api from "../middleware/baseUrl";
-
+import { ToastContainer, toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
 
 const Registration = () => {
 
@@ -32,8 +33,16 @@ const Registration = () => {
       .then((res) =>{
         console.log(res);
         setMsg(res.data);
+        if(msg.toLocaleLowerCase().includes('successfully')){
+          toast.success("Registration completed.",{position:toast.POSITION.TOP_RIGHT});
+        }else{
+          toast.error(`${msg}`,{position:toast.POSITION.TOP_RIGHT});
+        }
+        
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        toast.error("Registration failed.",{position:toast.POSITION.TOP_RIGHT});
+        console.log(err)})
       setIsLoading(false);
     }, 3000);
   }
@@ -123,7 +132,10 @@ const Registration = () => {
               <p className="text-success font-weight-bold my-2">{msg}</p>
               
               {isLoading ===true? <Loader className="text-center" type="ThreeDots" color="#0077b6" /> :
-                <button className="btn btn-block btn-primary">Register Course</button>
+                <>
+                  <button className="btn btn-block btn-primary">Register Course</button>
+                  <ToastContainer/>
+                </>
               }
           </form>
         </div>

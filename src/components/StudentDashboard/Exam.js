@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Axios from "axios";
 import api from "../middleware/baseUrl";
+import { ToastContainer, toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 const Exam = () =>{
@@ -44,12 +47,14 @@ const Exam = () =>{
   const startExam = async () =>{
     setStart(true);
     if(courseCode ===""){
+      toast.warning("Course Code not supplied.",{position:toast.POSITION.TOP_RIGHT});
       setError("Please Enter Course Code to get started.");
       setStart(false);
       return;
     }
     const questions = await getExams(courseCode);
     if(!questions.length){
+      toast.info("Unscheduled Examination.",{position:toast.POSITION.TOP_RIGHT});
       setError(`${courseCode} examination is yet to be scheduled. Kindly check the exams time table for more Information.`);
       return;
     }
@@ -68,14 +73,14 @@ const Exam = () =>{
   }
 
   const studentScore = () => {
-    let t = 0;
-    console.log(`the score is ${totalScore}`)
+    let _totalMark = 0;
+    // console.log(`the score is ${totalScore}`)
     totalScore.forEach(value => {
       // console.log(value);
-      t += value;
+      _totalMark += value;
       
     });
-    return  (t/(exam.length * 5)) * 100 + '%';
+    return  (_totalMark/(exam.length * 5)) * 100 + '%';
   }
   const submitAnswer = () => {
     let keywords = exam[next].keyword;
@@ -95,7 +100,7 @@ const Exam = () =>{
   const finish = () =>{
     
     if(submited === true){
-      alert("you've submitted already!");
+      toast.warn("you've submitted already!",{position:toast.POSITION.TOP_RIGHT});
       return;
     }
     const result = studentScore();
@@ -118,20 +123,22 @@ const Exam = () =>{
       console.log(recordExist)
       let studentResult =recordExist.data.filter((students) =>{
         return students.course_code.toLowerCase() === courseCode.toLowerCase() && 
-        students.reg_no.toLowerCase() === regno
+        students.reg_no.toLowerCase() === regno.toLocaleLowerCase()
       });
       
       if(studentResult.length){
-        alert("You've written this exam previously. Contact the lecturer for a rewrite.")
+        toast.warn("You've written this exam previously. Contact the lecturer for a rewrite.",{position:toast.POSITION.TOP_RIGHT});
         return;
       }
       const saved = await Axios.post(`${appApi}/result/upload`,payload);
       console.log(saved)
       if(saved.data.length){
-        alert("Congratulations! Your submission was successful.");
+        toast.success("Congratulations! Your submission was successful.",{position:toast.POSITION.TOP_RIGHT});
       }
       else{
-        alert("oops! Something went wrong while submitting your answer. Contact IT department.")
+        toast.error("oops! Something went wrong while submitting your answer. Contact IT department.",{
+          position:toast.POSITION.TOP_RIGHT
+        });
       }
     }
 
@@ -167,6 +174,7 @@ const Exam = () =>{
                 <span className="btn btn-secondary input-group-text" id="exam-code" onClick={() =>startExam()}>Start Exam</span>
               </div>
             </div>
+            <ToastContainer/>
           </> :
           <>
             {
@@ -174,6 +182,7 @@ const Exam = () =>{
               <div className="text-center mt-5">
                 <p>Sorry you are not elligible for this exam.</p>
                 <button className="btn btn-lg btn-warning text-light" onClick={()=>{setError("");setStart(false)}}>Return</button>
+                <ToastContainer/>
               </div> :
               <>
                 <h4 className="text-center my-3">{exam[0].course_title} ({exam[0].course_code}) Examination</h4>
@@ -208,6 +217,7 @@ const Exam = () =>{
                                 <button className="btn btn-block btn-info font-weight-bold"
                                   onClick={()=>finish()}
                                 >Submit</button>
+                                <ToastContainer/>
                               </div>
                             }
                           </div>
@@ -218,6 +228,7 @@ const Exam = () =>{
                 </div>
               </>
             }
+            
           </>
         }
       </div>

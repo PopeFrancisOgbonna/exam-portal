@@ -5,7 +5,8 @@ import Loader from "react-loader-spinner";
 import images from "../images";
 import api from "../middleware/baseUrl";
 import Axios from "axios";
-
+import { ToastContainer, toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const ExamQuestions = () => {
@@ -40,7 +41,7 @@ const ExamQuestions = () => {
         })
         .catch(err => {
           console.log(err);
-          setMsg('Error: Unable to upload Questions! Try again later');
+          toast.error('Error: Unable to upload Questions! Try again later',{position:toast.POSITION.TOP_RIGHT});
           setIsLoading(false);
         })
       
@@ -162,7 +163,12 @@ const ExamQuestions = () => {
                           </button>
                         </div>
                       }
-                      {!isLoading ? <button className="btn btn-block btn-primary">Upload Question</button>:
+                      {!isLoading ? 
+                        <>
+                          <button className="btn btn-block btn-primary">Upload Question</button>
+                          <ToastContainer/>
+                        </>
+                      :
                         <Loader type="ThreeDots" className="mx-auto" color="#0077b6" />
                       }
                     </div>

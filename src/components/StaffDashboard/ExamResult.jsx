@@ -2,6 +2,7 @@ import React,{useEffect,useState} from "react";
 import styled from "styled-components";
 import Axios from "axios";
 import api from "../middleware/baseUrl";
+import images from "../images";
 
 
 
@@ -60,7 +61,7 @@ const ExamResult = () => {
           <span className="btn btn-secondary input-group-text" id="exam-code">View Result</span>
         </div>
       </div>
-      {!results.length ? <p>Loading...</p> :
+      {results.length === 0 ? <div className="text-center"><img src={images.resultSheet} alt="" className="img-fluid result" /></div> :
         code !=="" &&
         <div className="table-container">
           <table className="table table-striped">
@@ -93,5 +94,8 @@ const Wrapper = styled.div `
   }
   .table-container{
     overflow-x: auto;
+  }
+  .result{
+    width:30%;
   }
 `;

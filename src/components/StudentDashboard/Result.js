@@ -2,6 +2,7 @@ import React,{useEffect, useState} from "react";
 import styled from "styled-components";
 import Axios from "axios";
 import api from "../middleware/baseUrl";
+import images from "../images";
 
 
 const Result = () =>{
@@ -53,7 +54,7 @@ const Result = () =>{
 
   return(
     <Wrap className="container mt-5">
-      {!results.length ? <p>Loading...</p> :
+      {results.length ===0 ? <div className="text-center"><img className="img-fluid result" src={images.resultSheet} alt="empty result sheet"/></div> :
         <div className="table-container">
           <table className="table table-striped">
             <thead className="table-dark">
@@ -75,5 +76,8 @@ export default Result;
 const Wrap = styled.div `
   .table-container{
     overflow-x:auto;
+  }
+  .result{
+    width: 30%;
   }
 `;
